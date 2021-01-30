@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
+import Home from '@/views/Home.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -12,7 +12,12 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'Page404',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/error-page/Page404.vue')
   }
 ]
 
