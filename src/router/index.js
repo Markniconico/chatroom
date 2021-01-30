@@ -7,17 +7,39 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: '/message',
+        name: 'Message',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/message/Message.vue'),
+        meta: { requiresAuth: true, title: '消息' }
+      },
+      {
+        path: '/friend',
+        name: 'friend',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/friend/Friend.vue'),
+        meta: { requiresAuth: true, title: '好友' }
+      },
+      {
+        path: '/my',
+        name: 'my',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/my/My.vue'),
+        meta: { requiresAuth: true, title: '我的' }
+      }
+    ]
   },
   {
-    path: '/about',
-    name: 'About',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue')
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/login/Login.vue'),
+    meta: { title: '登录' }
   },
   {
     path: '/:catchAll(.*)',
     name: 'Page404',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/error-page/Page404.vue')
+    component: () => import(/* webpackChunkName: "about" */ '@/views/error-page/Page404.vue'),
+    meta: { title: '找不到你想去的页面' }
   }
 ]
 
@@ -28,7 +50,25 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  next()
+  document.title = to.meta.title || '聊天室'
+  let token = true
+  // 登录页并且已经登录跳转到首页
+  if (to.path === '/login') {
+    if (token) {
+      return next({ path: '/message', replace: true })
+    }
+    next()
+  } else {
+    // 未登录且需要登录的页面
+    if (to.meta.requiresAuth && !token) {
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  }
 })
 
 router.afterEach(() => {

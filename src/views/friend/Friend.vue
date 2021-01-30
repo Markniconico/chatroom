@@ -1,16 +1,15 @@
 <template>
   <div>
-    About
+    好友
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 export default defineComponent({
-  name: 'About'
 })
 </script>
 
-<style lang='scss'>
+<style lang='scss' scoped>
 
 </style>

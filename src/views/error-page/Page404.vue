@@ -1,6 +1,6 @@
 <template>
-  <van-empty class="no-page" image="search" description="找不到该页面">
-    <router-link to="/">
+  <van-empty class="no-page" image="search" description="找不到你想去的页面">
+    <router-link to="/message">
       <van-button round type="danger" class="bottom-button">返回主页</van-button>
     </router-link>
   </van-empty>
