@@ -1,0 +1,10 @@
+@mixin bubble {
+  &:after {
+    content: "";
+    position: absolute;
+    display: inline-block;
+    border: 5px solid transparent;
+    transform: translateY(-50%);
+    top: 50%;
+  }
+}
