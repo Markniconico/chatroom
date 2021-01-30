@@ -10,10 +10,10 @@ const routes = [
     component: Home,
     children: [
       {
-        path: '/message',
-        name: 'Message',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/message/Message.vue'),
-        meta: { requiresAuth: true, title: '消息' }
+        path: '/chat',
+        name: 'Chat',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/chat/Chat.vue'),
+        meta: { requiresAuth: true, title: '聊天' }
       },
       {
         path: '/friend',
@@ -36,6 +36,12 @@ const routes = [
     meta: { title: '登录' }
   },
   {
+    path: '/chatwindow',
+    name: 'ChatWindow',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/chat-window/ChatWindow.vue'),
+    meta: { title: '聊天' }
+  },
+  {
     path: '/:catchAll(.*)',
     name: 'Page404',
     component: () => import(/* webpackChunkName: "about" */ '@/views/error-page/Page404.vue'),
@@ -55,7 +61,7 @@ router.beforeEach((to, from, next) => {
   // 登录页并且已经登录跳转到首页
   if (to.path === '/login') {
     if (token) {
-      return next({ path: '/message', replace: true })
+      return next({ path: '/chat', replace: true })
     }
     next()
   } else {
