@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { Notify } from 'vant'
+import store from '@/store/index.js'
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
@@ -8,6 +9,7 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+    config.headers['Authorization'] = `Bearer ${store.state.user.token}`
     return config
   },
   error => {

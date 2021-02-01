@@ -17,11 +17,12 @@
 <script>
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import { test } from '@api/test.js'
 export default defineComponent({
   name: 'Login',
   setup () {
     const router = useRouter()
-    
+
     const rules = reactive({
       uPattern: [{ pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '用户名格式不正确' }],
       pPattern: [{ pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '密码格式不正确' }]
@@ -33,6 +34,7 @@ export default defineComponent({
     })
 
     const onLogin = () => {
+      test()
       router.push('/')
     }
     return {
