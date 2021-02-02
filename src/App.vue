@@ -14,6 +14,6 @@ export default defineComponent({
 <style lang='scss'>
 @import "~@styles/reset.scss";
 body {
-  background: #eee;
+  background: $bg-color;
 }
 </style>

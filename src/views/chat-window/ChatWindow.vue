@@ -9,7 +9,7 @@
       </van-nav-bar>
     </header>
     <!-- 聊天区域 -->
-    <main class="window">
+    <main class="window van-hairline--bottom">
       <div class="info left" v-for="i of 11" :key="i">
         <div class="profile">
           <van-image width="1rem" height="1rem" lazy-load src="https://img.yzcdn.cn/vant/cat.jpeg" />
@@ -84,6 +84,7 @@ $bubble-lr: -10px;
     height: calc(100vh - 116px);
     padding: 0 10px 5px;
     overflow: auto;
+    overscroll-behavior: contain;
     .right {
       align-self: flex-end;
       .name {

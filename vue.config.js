@@ -11,5 +11,17 @@ module.exports = {
       .set('@styles', resolve('src/styles'))
       .set('@c', resolve('src/components'))
       .set('@api', resolve('src/api'))
+      .end()
+    const oneOfsMap = config.module.rule('scss').oneOfs.store
+    oneOfsMap.forEach(item => {
+      item
+        .use('sass-resources-loader')
+        .loader('sass-resources-loader')
+        .options({
+          resources: './src/styles/global.scss',
+        })
+        .end()
+    })
   }
+
 };

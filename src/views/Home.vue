@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div class="home">
     <nav-bar />
-    <router-view />
+    <router-view class="main" />
     <van-tabbar route>
       <van-tabbar-item to="/chat" icon="more" badge="20">聊天</van-tabbar-item>
       <van-tabbar-item to="/friend" icon="friends" dot>好友</van-tabbar-item>
@@ -22,4 +22,7 @@ export default defineComponent({
 </script>
 
 <style lang='scss'>
+.home .main {
+  padding-top: 46px;
+}
 </style>

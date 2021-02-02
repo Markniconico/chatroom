@@ -1,10 +1,8 @@
 <template>
-  <van-nav-bar :title="title" left-text="返回" right-text="按钮" fixed placeholder>
-    <template #left>
-      头像
-    </template>
+  <van-nav-bar :title="title" right-text="按钮" fixed>
     <template #right>
-      <van-icon name="search" color="#fff" size=".5rem" />
+      <van-icon name="search" color="#000" size=".5rem" />
+      <van-icon name="add-o" color="#000" size=".5rem" />
     </template>
   </van-nav-bar>
 </template>
@@ -28,9 +26,10 @@ export default defineComponent({
 
 <style lang='scss'>
 .van-nav-bar {
-  background-color: #01bef1;
-  .van-nav-bar__title ,.van-icon{
-    color: #fff;
+  background-color: $navbar-color;
+  .van-nav-bar__title,
+  .van-icon {
+    color: #000;
   }
 }
 </style>
