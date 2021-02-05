@@ -22,6 +22,14 @@ module.exports = {
         })
         .end()
     })
+  },
+  devServer: {
+    proxy: {
+      '/api/*': {
+        target: 'http://182.92.81.247/',
+        ws: true,
+        changeOrigin: true
+      }
+    }
   }
-
-};
+}

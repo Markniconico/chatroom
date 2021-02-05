@@ -58,7 +58,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   NProgress.start()
   document.title = to.meta.title || '聊天室'
-  let token = true
+  let token = false
   // 登录页并且已经登录跳转到首页
   if (to.path === '/login') {
     if (token) {

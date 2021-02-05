@@ -17,7 +17,7 @@
 <script>
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { test } from '@api/test.js'
+import { login } from '@api/user.js'
 export default defineComponent({
   name: 'Login',
   setup () {
@@ -34,8 +34,10 @@ export default defineComponent({
     })
 
     const onLogin = () => {
-      test()
-      router.push('/')
+      login({user}).then((res)=>{
+        console.log(res)
+      })
+      // router.push('/')
     }
     return {
       rules,
