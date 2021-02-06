@@ -34,8 +34,8 @@ export default defineComponent({
     })
 
     const user = reactive({
-      username: '',
-      password: ''
+      username: 'zhangsan',
+      password: '123456'
     })
 
     // 登录

@@ -1,4 +1,4 @@
-import { login as loginApi } from '@api/user.js'
+import { loginApi, logOutApi } from '@api/user.js'
 
 const token = window.localStorage.getItem('token')
 
@@ -12,6 +12,9 @@ export default {
   mutations: {
     login (state, token) {
       state.token = token
+    },
+    logOut (state) {
+      state.token = ''
     }
   },
   actions: {
@@ -20,6 +23,15 @@ export default {
         loginApi(data).then(res => {
           window.localStorage.setItem('token', res.data)
           commit('login', res.data)
+          resolve()
+        }).catch(err => reject(err))
+      })
+    },
+    logOut ({ commit }) {
+      return new Promise((resolve, reject) => {
+        logOutApi().then(() => {
+          window.localStorage.removeItem('token')
+          commit('logOut')
           resolve()
         }).catch(err => reject(err))
       })

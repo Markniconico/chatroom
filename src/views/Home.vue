@@ -1,7 +1,10 @@
 <template>
   <div class="home">
+    <!-- 头部 -->
     <nav-bar v-if="$route.meta.navBar" />
-    <router-view :class="{'main':$route.meta.navBar}" />
+    <!-- 中心区域 -->
+    <router-view :class="{ 'main': $route.meta.navBar }" />
+    <!-- 底部 -->
     <van-tabbar route>
       <van-tabbar-item to="/chat" icon="more" badge="20">聊天</van-tabbar-item>
       <van-tabbar-item to="/friend" icon="friends" dot>好友</van-tabbar-item>

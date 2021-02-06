@@ -15,19 +15,30 @@ const routes = [
         path: '/chat',
         name: 'Chat',
         component: () => import(/* webpackChunkName: "about" */ '@/views/chat/Chat.vue'),
-        meta: { requiresAuth: true, title: '聊天', navBar: true }
+        meta: {
+          requiresAuth: true,
+          title: '聊天',
+          navBar: true
+        }
       },
       {
         path: '/friend',
         name: 'friend',
         component: () => import(/* webpackChunkName: "about" */ '@/views/friend/Friend.vue'),
-        meta: { requiresAuth: true, title: '好友', navBar: true }
+        meta: {
+          requiresAuth: true,
+          title: '好友',
+          navBar: true
+        }
       },
       {
         path: '/my',
         name: 'my',
         component: () => import(/* webpackChunkName: "about" */ '@/views/my/My.vue'),
-        meta: { requiresAuth: true, title: '我的' }
+        meta: {
+          requiresAuth: true,
+          title: '我的'
+        }
       }
     ]
   },
