@@ -1,11 +1,13 @@
 <template>
   <div class="login">
     <div class="logo"></div>
+
     <van-form @submit="onLogin" validate-trigger="onSubmit">
       <van-field v-model="user.username" type="text" autofocus name="用户名" placeholder="请输入用户名" :rules="rules.uPattern" />
       <van-field v-model="user.password" type="password" name="密码" placeholder="请输入密码" :rules="rules.pPattern" />
       <van-button block type="primary" native-type="submit">提交</van-button>
     </van-form>
+
     <van-button block plain>一键登录</van-button>
     <div class="switch">
       <a href="#">忘了密码?</a>
@@ -16,14 +18,17 @@
 
 <script>
 import { defineComponent, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { login } from '@api/user.js'
+import { useRouter, useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+
 export default defineComponent({
   name: 'Login',
   setup () {
     const router = useRouter()
+    const route = useRoute()
+    const store = useStore()
 
-    const rules = reactive({
+    const rules = ({
       uPattern: [{ pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '用户名格式不正确' }],
       pPattern: [{ pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '密码格式不正确' }]
     })
@@ -33,12 +38,14 @@ export default defineComponent({
       password: ''
     })
 
+    // 登录
     const onLogin = () => {
-      login({user}).then((res)=>{
-        console.log(res)
+      store.dispatch('user/login', { ...user, role: 0 }).then(() => {
+        const { redirect } = route.query
+        redirect ? router.push(redirect) : router.push('/')
       })
-      // router.push('/')
     }
+
     return {
       rules,
       onLogin,

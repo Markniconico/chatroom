@@ -1,7 +1,8 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
+import store from '@/store/index.js'
+/* import NProgress from 'nprogress'
+import 'nprogress/nprogress.css' */
 
 const routes = [
   {
@@ -14,13 +15,13 @@ const routes = [
         path: '/chat',
         name: 'Chat',
         component: () => import(/* webpackChunkName: "about" */ '@/views/chat/Chat.vue'),
-        meta: { requiresAuth: true, title: '聊天' }
+        meta: { requiresAuth: true, title: '聊天', navBar: true }
       },
       {
         path: '/friend',
         name: 'friend',
         component: () => import(/* webpackChunkName: "about" */ '@/views/friend/Friend.vue'),
-        meta: { requiresAuth: true, title: '好友' }
+        meta: { requiresAuth: true, title: '好友', navBar: true }
       },
       {
         path: '/my',
@@ -56,9 +57,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  NProgress.start()
+  // NProgress.start()
+
+  const { token } = store.state.user
+
   document.title = to.meta.title || '聊天室'
-  let token = false
+
   // 登录页并且已经登录跳转到首页
   if (to.path === '/login') {
     if (token) {
@@ -79,6 +83,7 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-  NProgress.done()
-});
+  // NProgress.done()
+})
+
 export default router

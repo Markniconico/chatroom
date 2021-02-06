@@ -3,15 +3,19 @@ const path = require('path');
 function resolve (dir) {
   return path.join(__dirname, dir);
 }
+
 module.exports = {
   lintOnSave: true,
   chainWebpack: (config) => {
+    // 路径别名
     config.resolve.alias
       .set('@', resolve('src'))
       .set('@styles', resolve('src/styles'))
       .set('@c', resolve('src/components'))
       .set('@api', resolve('src/api'))
       .end()
+    
+    // 全局css
     const oneOfsMap = config.module.rule('scss').oneOfs.store
     oneOfsMap.forEach(item => {
       item

@@ -1,23 +1,28 @@
+import { login as loginApi } from '@api/user.js'
+
+const token = window.localStorage.getItem('token')
+
 export default {
+  namespaced: true,
   state: {
-    token: 'my value'
+    token: token || ''
   },
   getters: {
-    value: state => {
-      return state.value
-    }
   },
   mutations: {
-    updateValue (state, payload) {
-      state.value = payload
+    login (state, token) {
+      state.token = token
     }
   },
   actions: {
-    login ({ commit }, payload) {
-
-    },
-    updateValue ({ commit }, payload) {
-      commit('updateValue', payload)
+    login ({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        loginApi(data).then(res => {
+          window.localStorage.setItem('token', res.data)
+          commit('login', res.data)
+          resolve()
+        }).catch(err => reject(err))
+      })
     }
   }
 }

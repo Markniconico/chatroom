@@ -12,7 +12,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     config.headers['Authorization'] = `Bearer ${store.state.user.token}`
-    config.xsrfCookieName = 'CSRF-TOKEN'
+    config.xsrfCookieName = 'csrfToken'
     config.xsrfHeaderName = 'X-CSRF-TOKEN'
     return config
   },
@@ -26,7 +26,11 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    return res
+    if (res.status !== 200) {
+      Notify({ type: 'danger', message: res.message })
+    } else {
+      return res
+    }
   },
   error => {
     Notify({ type: 'danger', message: error.message })
