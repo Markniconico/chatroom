@@ -2,7 +2,7 @@
   <div class="login">
     <div class="logo"></div>
 
-    <van-form @submit="onLogin" validate-trigger="onSubmit">
+    <van-form @submit="onSubmit" validate-trigger="onSubmit">
       <van-field v-model="user.username" type="text" autofocus name="用户名" placeholder="请输入用户名" :rules="rules.uPattern" />
       <van-field v-model="user.password" type="password" name="密码" placeholder="请输入密码" :rules="rules.pPattern" />
       <van-button block type="primary" native-type="submit">提交</van-button>
@@ -17,40 +17,24 @@
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { defineComponent } from 'vue'
+import { login } from './model/userModel.js'
+
 
 export default defineComponent({
   name: 'Login',
   setup () {
-    const router = useRouter()
-    const route = useRoute()
-    const store = useStore()
 
-    const rules = ({
-      uPattern: [{ pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '用户名格式不正确' }],
-      pPattern: [{ pattern: /^[a-zA-Z0-9_-]{4,16}$/, message: '密码格式不正确' }]
-    })
+    const { rules, user, onSubmit } = login()
 
-    const user = reactive({
-      username: 'zhangsan',
-      password: '123456'
-    })
 
-    // 登录
-    const onLogin = () => {
-      store.dispatch('user/login', { ...user, role: 0 }).then(() => {
-        const { redirect } = route.query
-        redirect ? router.push(redirect) : router.push('/')
-      })
-    }
 
     return {
       rules,
-      onLogin,
-      user
+      user,
+      onSubmit
     }
+
   }
 })
 </script>

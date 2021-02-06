@@ -1,37 +1,37 @@
 import { loginApi, logOutApi } from '@api/user.js'
-
-const token = window.localStorage.getItem('token')
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 export default {
   namespaced: true,
   state: {
-    token: token || ''
+    token: getToken()
   },
   getters: {
   },
   mutations: {
-    login (state, token) {
+    setToken (state, token) {
       state.token = token
-    },
-    logOut (state) {
-      state.token = ''
     }
   },
   actions: {
+    // 用户登录
     login ({ commit }, data) {
       return new Promise((resolve, reject) => {
         loginApi(data).then(res => {
-          window.localStorage.setItem('token', res.data)
-          commit('login', res.data)
+          commit('setToken', res.data)
+          setToken(res.data)
           resolve()
         }).catch(err => reject(err))
       })
     },
+
+    // 用户退出
     logOut ({ commit }) {
+      console.log(document.cookie)
       return new Promise((resolve, reject) => {
         logOutApi().then(() => {
-          window.localStorage.removeItem('token')
-          commit('logOut')
+          commit('setToken','')
+          removeToken()
           resolve()
         }).catch(err => reject(err))
       })

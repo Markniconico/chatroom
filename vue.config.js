@@ -13,6 +13,8 @@ module.exports = {
       .set('@styles', resolve('src/styles'))
       .set('@c', resolve('src/components'))
       .set('@api', resolve('src/api'))
+      .set('@store', resolve('src/store'))
+      .set('@router', resolve('src/router'))
       .end()
     
     // 全局css
