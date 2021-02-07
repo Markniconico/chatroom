@@ -10,6 +10,7 @@
     "amfe-flexible": "^2.2.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "emoji-mart-vue-fast": "^8.0.3",
     "js-cookie": "^2.2.1",
     "nprogress": "^0.2.0",
     "sass-resources-loader": "^2.1.1",

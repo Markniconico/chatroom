@@ -1,14 +1,14 @@
 <template>
-  <div class="info">
+  <div class="info" :class="bubbleClass(item.author)" v-for="item of messageList" :key="item.id">
     <div class="profile">
       <van-image width="1rem" height="1rem" lazy-load src="https://img.yzcdn.cn/vant/cat.jpeg" />
     </div>
     <div class="user">
       <div class="name">
-        张三
+        {{item.author}}
       </div>
-      <div class="message" :class="`bubble-${$attrs.class}`">
-        今天吃什么
+      <div class="message" :class="'bubble-'+bubbleClass(item.author)">
+        {{item.msg}}
       </div>
     </div>
   </div>
@@ -17,6 +17,19 @@
 <script>
 import { defineComponent } from 'vue'
 export default defineComponent({
+  name: 'MessageBlock',
+  props: {
+    messageList: {
+      type: Array,
+      default: () => []
+    }
+  },
+  setup (props) {
+    const bubbleClass = (author) => author ? 'left' : 'right'
+    return {
+      bubbleClass
+    }
+  }
 })
 </script>
 
@@ -24,6 +37,8 @@ export default defineComponent({
 @import "~@styles/mixin.scss";
 $bubble-margin: 5px;
 $bubble-lr: -10px;
+$bubble-left-bg: #fff;
+$bubble-right-bg: #9eea6a;
 
 .info.right {
   align-self: flex-end;
@@ -74,17 +89,19 @@ $bubble-lr: -10px;
     .bubble-left {
       @include bubble;
       transform: translateX($bubble-margin);
+      background-color: $bubble-left-bg;
       &::after {
         left: $bubble-lr;
-        border-right-color: #fff;
+        border-right-color: $bubble-left-bg;
       }
     }
     .bubble-right {
       @include bubble;
+      background-color: $bubble-right-bg;
       transform: translateX(-$bubble-margin);
       &::after {
         right: $bubble-lr;
-        border-left-color: #fff;
+        border-left-color: $bubble-right-bg;
       }
     }
   }
