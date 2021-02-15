@@ -48,7 +48,4 @@ export default defineComponent({
 </script>
 
 <style lang='scss' scoped>
-.emoji-mart .emoji-mart-static {
-  width: 100% !important;
-}
 </style>
