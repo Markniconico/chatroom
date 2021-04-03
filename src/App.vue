@@ -2,7 +2,7 @@
   <div>
     <Suspense>
       <template #default>
-          <router-view />
+        <router-view />
       </template>
       <template #fallback> Loading.... </template>
     </Suspense>
@@ -10,10 +10,28 @@
 </template>
 
 <script>
-import { defineComponent, onMounted } from 'vue'
+import { defineComponent, onMounted, getCurrentInstance } from "vue";
+
 export default defineComponent({
-  name: 'App'
-})
+  name: "App",
+  setup() {
+    const socket = getCurrentInstance().ctx.socket;
+
+    socket.io.on("init", () => {
+      console.log("socket connect from main.js");
+      console.log("socket connect from main.js");
+      store.commit("socket_newIsSuccessConnect", true);
+    });
+
+    onMounted(() => {
+      socket.io.on("connect", () => {
+        console.log("socket connect from main.js");
+        console.log("socket connect from main.js");
+        store.commit("socket_newIsSuccessConnect", true);
+      });
+    });
+  },
+});
 </script>
 
 <style lang='scss'>

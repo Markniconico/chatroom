@@ -35,6 +35,11 @@ module.exports = {
         target: 'http://182.92.81.247/',
         ws: true,
         changeOrigin: true
+      },
+      '/socket.io': {
+        target: 'http://182.92.81.247/socket.io',
+        changeOrigin: true, 
+        logLevel: 'debug'
       }
     }
   }

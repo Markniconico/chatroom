@@ -1,7 +1,11 @@
 import axios from 'axios'
-import { Notify } from 'vant'
+import {
+  Notify
+} from 'vant'
 import store from '@/store/index.js'
-import { removeToken } from '@/utils/auth'
+import {
+  removeToken
+} from '@/utils/auth'
 
 
 const service = axios.create({
@@ -12,10 +16,11 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
   config => {
+    const {
+      token
+    } = store.state.user
 
-    const { token } = store.state.user
     config.headers['Authorization'] = token ? `Bearer ${store.state.user.token}` : ''
-    
     config.xsrfCookieName = 'csrfToken'
     config.xsrfHeaderName = 'X-CSRF-TOKEN'
     return config
@@ -31,19 +36,20 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     if (res.status !== 200) {
-      Notify({ type: 'danger', message: res.message })
-      /*   
-        //如果登录失效 清除token
-        if(res.status===500 || res.status===505 ....){
-          removeToken()
-        } 
-      */
+      Notify({
+        type: 'danger',
+        message: res.message
+      })
+      return Promise.reject(new Error(res.message || 'Error'))
     } else {
       return res
     }
   },
   error => {
-    Notify({ type: 'danger', message: error.message })
+    Notify({
+      type: 'danger',
+      message: error.message
+    })
     return Promise.reject(error)
   }
 )
