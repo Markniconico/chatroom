@@ -34,10 +34,7 @@ module.exports = {
                 target: "http://182.92.81.247",
                 // ws: true,
                 changeOrigin: true,
-                logLevel: "debug",
-                pathRewrite: {
-                    "^/api/": "/",
-                },
+                // logLevel: "debug"
             },
             "/socket.io": {
                 target: "http://182.92.81.247",
@@ -45,5 +42,22 @@ module.exports = {
                 logLevel: "debug"
             },
         },
+        // // 本地调试后端
+        // proxy: {
+        //     "/api/*": {
+        //         target: "http://127.0.0.1:7001",
+        //         // ws: true,
+        //         changeOrigin: true,
+        //         logLevel: "debug",
+        //         pathRewrite: {
+        //             "^/api/": "/",
+        //         },
+        //     },
+        //     "/socket.io": {
+        //         target: "http://127.0.0.1:7001",
+        //         changeOrigin: true,
+        //         logLevel: "debug"
+        //     },
+        // },
     },
 };
