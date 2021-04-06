@@ -15,11 +15,10 @@
     "js-cookie": "^2.2.1",
     "nprogress": "^0.2.0",
     "sass-resources-loader": "^2.1.1",
-    "socket.io": "^4.0.1",
+    "socket.io-client": "^4.0.1",
     "vant": "^3.0.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
-    "vue-socket.io": "^3.0.10",
     "vuex": "^4.0.0-0"
   },
   "devDependencies": {
