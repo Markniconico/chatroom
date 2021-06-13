@@ -29,35 +29,42 @@ module.exports = {
         });
     },
     devServer: {
-        proxy: {
-            "/api/*": {
-                target: "http://182.92.81.247",
-                // ws: true,
-                changeOrigin: true,
-                // logLevel: "debug"
-            },
-            "/socket.io": {
-                target: "http://182.92.81.247",
-                changeOrigin: true,
-                logLevel: "debug"
-            },
-        },
-        // // 本地调试后端
-        // proxy: {
-        //     "/api/*": {
-        //         target: "http://127.0.0.1:7001",
-        //         // ws: true,
-        //         changeOrigin: true,
-        //         logLevel: "debug",
-        //         pathRewrite: {
-        //             "^/api/": "/",
-        //         },
-        //     },
-        //     "/socket.io": {
-        //         target: "http://127.0.0.1:7001",
-        //         changeOrigin: true,
-        //         logLevel: "debug"
-        //     },
-        // },
+        proxy: getProxyConfig(),
     },
 };
+
+function getProxyConfig() {
+    const env = process.env.NODE_ENV.trim() || "development";
+    if (env == "development") {
+        return {
+            "/api/*": {
+                target: "http://127.0.0.1:7001",
+                // ws: true,
+                changeOrigin: true,
+                logLevel: "debug",
+                pathRewrite: {
+                    "^/api/": "/",
+                },
+            },
+            "/socket.io": {
+                target: "http://127.0.0.1:7001",
+                changeOrigin: true,
+                logLevel: "debug",
+            },
+        };
+    }
+    
+    return {
+        "/api/*": {
+            target: "http://182.92.81.247",
+            // ws: true,
+            changeOrigin: true,
+            // logLevel: "debug"
+        },
+        "/socket.io": {
+            target: "http://182.92.81.247",
+            changeOrigin: true,
+            // logLevel: "debug",
+        },
+    };
+}
