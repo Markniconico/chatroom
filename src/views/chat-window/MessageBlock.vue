@@ -1,50 +1,59 @@
 <template>
-  <div class="info" :class="bubbleClass(item.author)" v-for="item of messageList" :key="item.id">
+  <div
+    class="info"
+    :class="bubbleClass(item.author)"
+    v-for="item of messageList"
+    :key="item.id"
+  >
     <div class="profile">
-      <van-image width="1rem" height="1rem" lazy-load src="https://img.yzcdn.cn/vant/cat.jpeg" />
+      <van-image
+        width="1rem"
+        height="1rem"
+        lazy-load
+        src="https://img.yzcdn.cn/vant/cat.jpeg"
+      />
     </div>
     <div class="user">
       <div class="name">
-        {{item.author}}
+        {{ item.author }}
       </div>
-      <div class="message" :class="'bubble-'+bubbleClass(item.author)">
-        {{item.msg}}
+      <div class="message" :class="'bubble-' + bubbleClass(item.author)">
+        {{ item.msg }}
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 export default defineComponent({
-  name: 'MessageBlock',
+  name: "MessageBlock",
   props: {
     messageList: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  setup (props) {
-    const bubbleClass = (author) => author ? 'left' : 'right'
+  setup(props) {
+    const bubbleClass = (author) => (author ? "left" : "right");
     return {
-      bubbleClass
-    }
-  }
-})
+      bubbleClass,
+    };
+  },
+});
 </script>
 
-<style lang='scss' scoped>
-@import "~@styles/mixin.scss";
-$bubble-margin: 5px;
-$bubble-lr: -10px;
-$bubble-left-bg: #fff;
-$bubble-right-bg: #9eea6a;
+<style lang="postcss" scoped>
+/* --bubble-margin: 5px;
+--bubble-lr: -10px;
+--bubble-left-bg: #fff;
+--bubble-right-bg: #9eea6a; */
 
 .info.right {
   align-self: flex-end;
-  .user {
+  & .user {
     order: -1;
-    .name {
+    & .name {
       text-align: right;
       padding-right: 5px;
     }
@@ -52,9 +61,9 @@ $bubble-right-bg: #9eea6a;
 }
 
 .info.left {
-  .user {
+  & .user {
     transform: translateX(3px);
-    .name {
+    & .name {
       padding-left: 5px;
       text-align: left;
     }
@@ -65,44 +74,30 @@ $bubble-right-bg: #9eea6a;
   display: flex;
   align-items: center;
   padding: 2px 0;
-  .profile {
+  & .profile {
     display: flex;
     align-items: flex-end;
   }
-  .user {
+  & .user {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     padding-right: 3px;
-    .name {
+    & .name {
       color: #999;
       font-size: 10px;
     }
 
-    .message {
+    & .message {
       position: relative;
       padding: 5px;
       font-size: 12px;
       background-color: #fff;
       border-radius: 2px;
     }
-    .bubble-left {
-      @include bubble;
-      transform: translateX($bubble-margin);
-      background-color: $bubble-left-bg;
-      &::after {
-        left: $bubble-lr;
-        border-right-color: $bubble-left-bg;
-      }
+    & .bubble-left {
     }
-    .bubble-right {
-      @include bubble;
-      background-color: $bubble-right-bg;
-      transform: translateX(-$bubble-margin);
-      &::after {
-        right: $bubble-lr;
-        border-left-color: $bubble-right-bg;
-      }
+    & .bubble-right {
     }
   }
 }

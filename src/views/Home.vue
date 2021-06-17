@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <nav-bar v-if="$route.meta.navBar" />
     <!-- 中心区域 -->
-    <router-view :class="{ 'main': $route.meta.navBar }" />
+    <router-view :class="{ main: $route.meta.navBar }" />
     <!-- 底部 -->
     <van-tabbar route>
       <van-tabbar-item to="/chat" icon="more" badge="20">聊天</van-tabbar-item>
@@ -14,17 +14,20 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import NavBar from '@c/NavBar.vue'
+import { defineComponent } from "vue";
+import NavBar from "@c/NavBar.vue";
 export default defineComponent({
-  name: 'Home',
+  name: "Home",
   components: {
-    NavBar
-  }
-})
+    NavBar,
+  },
+  setup() {
+    console.log("home");
+  },
+});
 </script>
 
-<style lang='scss'>
+<style lang="postcss">
 .home .main {
   padding-top: 46px;
 }

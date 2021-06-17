@@ -2,7 +2,12 @@
   <router-link to="/chatwindow">
     <div class="user-list van-hairline--bottom">
       <div class="list-profile">
-        <van-image width="1.5rem" height="1.5rem" lazy-load src="https://img.yzcdn.cn/vant/cat.jpeg" />
+        <van-image
+          width="1.5rem"
+          height="1.5rem"
+          lazy-load
+          src="https://img.yzcdn.cn/vant/cat.jpeg"
+        />
       </div>
       <div class="list-info">
         <p class="name">海澜之家</p>
@@ -16,36 +21,35 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-export default defineComponent({
-})
+import { defineComponent } from "vue";
+export default defineComponent({});
 </script>
 
-<style lang='scss' scoped>
+<style lang="postcss" scoped>
 .user-list {
   height: 60px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px;
-  .list-info {
+  & .list-info {
     flex: 1;
     margin-left: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    .name {
+    & .name {
       flex: 1;
       font-size: 16px;
       font-weight: 400;
     }
-    .message {
+    & .message {
       margin-top: 14px;
       font-size: 14px;
       color: #999;
     }
   }
-  .list-date {
+  & .list-date {
     font-size: 10px;
     color: #999;
   }

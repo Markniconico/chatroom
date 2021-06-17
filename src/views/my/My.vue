@@ -2,7 +2,12 @@
   <div>
     <!-- 信息 -->
     <div class="user" @click="toMyInfo">
-      <van-image width="75" height="75" src="https://img01.yzcdn.cn/vant/cat.jpeg" radius="10" />
+      <van-image
+        width="75"
+        height="75"
+        src="https://img01.yzcdn.cn/vant/cat.jpeg"
+        radius="10"
+      />
       <div class="user-info">
         <h2 class="user-name">程振国</h2>
         <p class="user-id">微信号: czg6201034</p>
@@ -23,70 +28,74 @@
 </template>
 
 <script>
-import { Dialog } from 'vant'
-import { defineComponent } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { Dialog } from "vant";
+import { defineComponent } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'My',
-  setup () {
-    const store = useStore()
-    const router = useRouter()
+  name: "My",
+  setup() {
+    const store = useStore();
+    const router = useRouter();
 
-    // 跳转到我的信息 
+    // 跳转到我的信息
     const toMyInfo = () => {
-      console.log('toInfo')
-    }
+      console.log("toInfo");
+    };
 
     // 登出
     const logOut = () => {
       Dialog.confirm({
-        message: '是否退出'
-      }).then(() => {
-        store.dispatch('user/logOut').then(() => { router.push('/login') })
-      }).catch(err => { console.log('取消') })
-    }
+        message: "是否退出",
+      })
+        .then(() => {
+          store.dispatch("user/logOut").then(() => {
+            router.push("/login");
+          });
+        })
+        .catch((err) => {
+          console.log("取消");
+        });
+    };
 
-    
     return {
       toMyInfo,
-      logOut
-    }
-  }
-})
+      logOut,
+    };
+  },
+});
 </script>
 
-<style lang='scss' scoped>
+<style lang="postcss" scoped>
 .user {
   display: flex;
-  background-color: $card-color;
   justify-content: space-between;
   padding: 20px;
-  .user-info {
+  & .user-info {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 5px 0 5px 15px;
-    .user-name {
+    & .user-name {
       font-size: 18px;
       font-weight: 700;
     }
-    .user-id {
+    & .user-id {
       font-size: 14px;
       color: #7f7f7f;
     }
   }
-  .arrow {
+  & .arrow {
     align-self: center;
   }
 }
 .menu {
-  div:first-of-type {
+  & div:first-of-type {
     margin: 10px 0;
   }
-  div:last-of-type {
+  & div:last-of-type {
     margin-top: 10px;
   }
 }

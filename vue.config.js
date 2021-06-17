@@ -16,17 +16,6 @@ module.exports = {
             .set("@store", resolve("src/store"))
             .set("@router", resolve("src/router"))
             .end();
-
-        // 全局css
-        const oneOfsMap = config.module.rule("scss").oneOfs.store;
-        oneOfsMap.forEach((item) => {
-            item.use("sass-resources-loader")
-                .loader("sass-resources-loader")
-                .options({
-                    resources: "./src/styles/global.scss",
-                })
-                .end();
-        });
     },
     devServer: {
         proxy: getProxyConfig(),
@@ -49,11 +38,12 @@ function getProxyConfig() {
             "/socket.io": {
                 target: "http://127.0.0.1:7001",
                 changeOrigin: true,
+                ws: true,
                 logLevel: "debug",
             },
         };
     }
-    
+
     return {
         "/api/*": {
             target: "http://182.92.81.247",
@@ -64,6 +54,7 @@ function getProxyConfig() {
         "/socket.io": {
             target: "http://182.92.81.247",
             changeOrigin: true,
+            ws: true,
             // logLevel: "debug",
         },
     };

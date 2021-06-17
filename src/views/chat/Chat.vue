@@ -1,22 +1,27 @@
 <template>
   <van-pull-refresh v-model="state.refreshing" @refresh="onRefresh">
-    <van-list v-model:loading="state.loading" :finished="state.finished" finished-text="没有更多了" @load="onLoad">
+    <van-list
+      v-model:loading="state.loading"
+      :finished="state.finished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
       <user-list v-for="item in state.list" :key="item" :title="item" />
     </van-list>
   </van-pull-refresh>
 </template>
 
 <script>
-import { defineComponent, reactive } from 'vue'
-import UserList from '@c/UserList.vue'
+import { defineComponent, reactive } from "vue";
+import UserList from "@/components/UserList.vue";
 export default defineComponent({
-  name: 'Chat',
+  name: "Chat",
   components: {
-    UserList
+    UserList,
   },
-  setup () {
+  setup() {
     const state = reactive({
-      list: [],
+      list: [, ,],
       loading: false,
       finished: false,
       refreshing: false,
@@ -25,35 +30,34 @@ export default defineComponent({
     const onLoad = () => {
       setTimeout(() => {
         if (state.refreshing) {
-          state.list = []
-          state.refreshing = false
+          state.list = [];
+          state.refreshing = false;
         }
 
         for (let i = 0; i < 10; i++) {
-          state.list.push(state.list.length + 1)
+          state.list.push(state.list.length + 1);
         }
-        state.loading = false
+        state.loading = false;
 
         if (state.list.length >= 40) {
-          state.finished = true
+          state.finished = true;
         }
-      }, 1000)
-    }
+      }, 1000);
+    };
 
     const onRefresh = () => {
-      state.finished = false
-      state.loading = true
-      onLoad()
-    }
+      state.finished = false;
+      state.loading = true;
+      onLoad();
+    };
 
     return {
       state,
       onLoad,
       onRefresh,
-    }
-  }
-})
+    };
+  },
+});
 </script>
 
-<style lang='scss' scoped>
-</style>
+<style lang="postcss" scoped></style>

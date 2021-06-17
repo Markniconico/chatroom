@@ -1,8 +1,9 @@
-$dark-color: #111;
-$bg-color:#F5F5F5;
-$navbar-color:#EDEDED;
-$card-color:#fff;
+/* test css */
+:root {
+    --t-color: red;
+}
 
+/* main */
 :root {
     --main-color: #4d4e53;
     --main-bg: rgb(255, 255, 255);

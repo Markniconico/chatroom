@@ -20,9 +20,10 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
-@import "~@styles/reset.scss";
-body {
-    background: $bg-color;
-}
+<style lang="postcss" scoped>
+/* test css */
+/* @import "~@styles/global.css";
+div {
+    background: var(--t-color);
+} */
 </style>

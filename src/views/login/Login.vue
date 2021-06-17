@@ -3,8 +3,21 @@
     <div class="logo"></div>
 
     <van-form @submit="onSubmit" validate-trigger="onSubmit">
-      <van-field v-model="user.username" type="text" autofocus name="用户名" placeholder="请输入用户名" :rules="rules.uPattern" />
-      <van-field v-model="user.password" type="password" name="密码" placeholder="请输入密码" :rules="rules.pPattern" />
+      <van-field
+        v-model="user.username"
+        type="text"
+        autofocus
+        name="用户名"
+        placeholder="请输入用户名"
+        :rules="rules.uPattern"
+      />
+      <van-field
+        v-model="user.password"
+        type="password"
+        name="密码"
+        placeholder="请输入密码"
+        :rules="rules.pPattern"
+      />
       <van-button block type="primary" native-type="submit">提交</van-button>
     </van-form>
 
@@ -17,48 +30,44 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-import { login } from './model/userModel.js'
-
+import { defineComponent } from "vue";
+import { login } from "./model/userModel.js";
 
 export default defineComponent({
-  name: 'Login',
-  setup () {
-
-    const { rules, user, onSubmit } = login()
-
-
+  name: "Login",
+  setup() {
+    const { rules, user, onSubmit } = login();
 
     return {
       rules,
       user,
-      onSubmit
-    }
-
-  }
-})
+      onSubmit,
+    };
+  },
+});
 </script>
 
-<style lang='scss'>
+<style lang="postcss" scoped>
 .login {
   padding: 25px 40px 0;
   margin: 0 auto;
-  .logo {
+
+  & .logo {
     background-image: url("../../assets/logo.png");
     height: 100px;
     width: 244px;
     margin: 0 auto 20px;
     background-size: 244px 100px;
   }
-  .van-button {
+  & .van-button {
     margin-top: 15px;
     border-radius: 2px;
   }
-  .switch {
+  & .switch {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    a {
+    & a {
       color: #246183;
       line-height: 14px;
       font-size: 14px;
