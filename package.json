@@ -3,11 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "SET NODE_ENV=development && vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "amfe-flexible": "^2.2.1",
+    "axios": "^0.21.1",
+    "cookie_js": "^1.4.2",
     "core-js": "^3.6.5",
+    "emoji-mart-vue-fast": "^8.0.3",
+    "js-cookie": "^2.2.1",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "socket.io-client": "^4.0.1",
+    "vant": "^3.0.5",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"
@@ -18,12 +27,9 @@
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.0",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+    "babel-plugin-import": "^1.13.3",
+    "postcss-autoreset": "^2.0.2",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-pxtorem": "^5.1.1"
+  }
 }

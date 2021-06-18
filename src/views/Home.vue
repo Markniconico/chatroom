@@ -1,18 +1,34 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!-- 头部 -->
+    <nav-bar v-if="$route.meta.navBar" />
+    <!-- 中心区域 -->
+    <router-view :class="{ main: $route.meta.navBar }" />
+    <!-- 底部 -->
+    <van-tabbar route>
+      <van-tabbar-item to="/chat" icon="more" badge="20">聊天</van-tabbar-item>
+      <van-tabbar-item to="/friend" icon="friends" dot>好友</van-tabbar-item>
+      <van-tabbar-item to="/my" icon="manager">我的</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
-export default {
-  name: 'Home',
+import { defineComponent } from "vue";
+import NavBar from "@c/NavBar.vue";
+export default defineComponent({
+  name: "Home",
   components: {
-    HelloWorld
-  }
-}
+    NavBar,
+  },
+  setup() {
+    console.log("home");
+  },
+});
 </script>
+
+<style lang="postcss">
+.home .main {
+  padding-top: 46px;
+}
+</style>
