@@ -1,40 +1,52 @@
-import { loginApi, logOutApi } from '@api/user.js'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { loginApi, logOutApi } from "@api/user.js";
+import { getToken, setToken, removeToken } from "@/utils/auth";
+import { Notify } from "vant";
 
 export default {
   namespaced: true,
   state: {
-    token: getToken()
+    token: getToken(),
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
-    setToken (state, token) {
-      state.token = token
-    }
+    setToken(state, token) {
+      state.token = token;
+    },
   },
   actions: {
     // 用户登录
-    login ({ commit }, data) {
+    login({ commit }, data) {
       return new Promise((resolve, reject) => {
-        loginApi(data).then(res => {
-          commit('setToken', res.data)
-          setToken(res.data)
-          resolve()
-        }).catch(err => reject(err))
-      })
+        loginApi(data)
+          .then((res) => {
+            Notify({
+              type: "success",
+              message: "登录成功",
+            });
+            commit("setToken", res.data);
+            setToken(res.data);
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
     },
 
     // 用户退出
-    logOut ({ commit }) {
-      console.log(document.cookie)
+    logOut({ commit }) {
+      console.log(document.cookie);
       return new Promise((resolve, reject) => {
-        logOutApi().then(() => {
-          commit('setToken','')
-          removeToken()
-          resolve()
-        }).catch(err => reject(err))
-      })
-    }
-  }
-}
+        logOutApi()
+          .then(() => {
+            Notify({
+              type: "success",
+              message: "退出成功",
+            });
+            commit("setToken", "");
+            removeToken();
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+    },
+  },
+};
