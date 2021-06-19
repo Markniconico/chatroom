@@ -33,7 +33,6 @@ export default {
 
     // 用户退出
     logOut({ commit }) {
-      console.log(document.cookie);
       return new Promise((resolve, reject) => {
         logOutApi()
           .then(() => {
