@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app">
     <Suspense>
       <template #default>
         <router-view />
@@ -46,4 +46,8 @@ export default defineComponent({
 div {
     background: var(--t-color);
 } */
+.app {
+  width: 100%;
+  height: 100%;
+}
 </style>

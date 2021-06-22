@@ -1,19 +1,26 @@
 <template>
-  <van-pull-refresh v-model="state.refreshing" @refresh="onRefresh">
-    <van-list
-      v-model:loading="state.loading"
-      :finished="state.finished"
-      finished-text="没有更多了"
-      @load="onLoad"
+  <div class="chat">
+    <van-pull-refresh
+      v-model="refreshing"
+      @refresh="getChatList"
+      style="height: 100%;"
     >
-      <user-list v-for="item in state.list" :key="item" :title="item" />
-    </van-list>
-  </van-pull-refresh>
+      <van-list
+        v-model:loading="loading"
+        :finished="finished"
+        finished-text="没有更多了"
+        @load="getChatList"
+      >
+        <user-list v-for="item in list" :key="item" :title="item" />
+      </van-list>
+    </van-pull-refresh>
+  </div>
 </template>
 
 <script>
-import { defineComponent, reactive } from "vue";
+import { defineComponent, onMounted, reactive, toRefs } from "vue";
 import UserList from "@/components/UserList.vue";
+import { mapActions, useStore } from "vuex";
 export default defineComponent({
   name: "Chat",
   components: {
@@ -21,43 +28,34 @@ export default defineComponent({
   },
   setup() {
     const state = reactive({
-      list: [, ,],
+      list: [],
       loading: false,
       finished: false,
       refreshing: false,
     });
 
-    const onLoad = () => {
-      setTimeout(() => {
-        if (state.refreshing) {
-          state.list = [];
-          state.refreshing = false;
-        }
+    const store = useStore();
 
-        for (let i = 0; i < 10; i++) {
-          state.list.push(state.list.length + 1);
-        }
-        state.loading = false;
-
-        if (state.list.length >= 40) {
-          state.finished = true;
-        }
-      }, 1000);
-    };
-
-    const onRefresh = () => {
+    async function getChatList() {
+      state.refreshing = false;
       state.finished = false;
       state.loading = true;
-      onLoad();
-    };
+      const result = await store.dispatch("chat/getChatList");
+      state.list = result.data;
+      state.loading = false;
+      state.finished = true;
+    }
 
     return {
-      state,
-      onLoad,
-      onRefresh,
+      ...toRefs(state),
+      getChatList,
     };
   },
 });
 </script>
 
-<style lang="postcss" scoped></style>
+<style lang="postcss" scoped>
+.chat {
+  height: 100%;
+}
+</style>
