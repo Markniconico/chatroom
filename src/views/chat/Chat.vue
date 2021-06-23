@@ -38,6 +38,7 @@ export default defineComponent({
 
     async function getChatList() {
       state.refreshing = false;
+      state.list = [];
       state.finished = false;
       state.loading = true;
       const result = await store.dispatch("chat/getChatList");

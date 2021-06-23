@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Notify } from "vant";
 import store from "@/store/index.js";
-import { removeToken } from "@/utils/auth";
+import { setToken } from "@/utils/auth";
 import router from "@/router/index";
 
 const service = axios.create({
@@ -14,9 +14,7 @@ service.interceptors.request.use(
   (config) => {
     const { token } = store.state.user;
 
-    config.headers["Authorization"] = token
-      ? `Bearer ${store.state.user.token}`
-      : "";
+    config.headers["Authorization"] = token ? `Bearer ${token}` : "";
     config.xsrfCookieName = "csrfToken";
     config.xsrfHeaderName = "X-CSRF-TOKEN";
     return config;
@@ -39,6 +37,7 @@ service.interceptors.response.use(
         type: "danger",
         message: message,
       });
+      store.dispatch("user/resetToken");
       router.push("/login");
       return Promise.reject(new Error(message || "Error"));
       // 返回主页

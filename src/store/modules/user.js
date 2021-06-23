@@ -47,5 +47,13 @@ export default {
           .catch((err) => reject(err));
       });
     },
+
+    resetToken({ commit }) {
+      return new Promise((resolve) => {
+        commit("setToken", "");
+        removeToken();
+        resolve();
+      });
+    },
   },
 };
