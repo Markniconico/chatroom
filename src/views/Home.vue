@@ -5,7 +5,7 @@
     <!-- 中心区域 -->
     <router-view :class="{ main: $route.meta.navBar }" />
     <!-- 底部 -->
-    <van-tabbar route>
+    <van-tabbar route :fixed="false">
       <van-tabbar-item to="/chat" icon="more" badge="20">聊天</van-tabbar-item>
       <van-tabbar-item to="/friend" icon="friends" dot>好友</van-tabbar-item>
       <van-tabbar-item to="/my" icon="manager">我的</van-tabbar-item>
@@ -28,7 +28,14 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
-.home .main {
-  padding-top: 46px;
+.home {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  & .nav-bar {
+  }
+  & .main {
+    flex: 1;
+  }
 }
 </style>
