@@ -6,6 +6,7 @@ export default {
   namespaced: true,
   state: {
     token: getToken(),
+    userinfo: {}
   },
   getters: {},
   mutations: {

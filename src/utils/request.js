@@ -15,7 +15,7 @@ service.interceptors.request.use(
     const { token } = store.state.user;
 
     config.headers["Authorization"] = token ? `Bearer ${token}` : "";
-    config.xsrfCookieName = "csrfToken";
+    // config.xsrfCookieName = "csrfToken";
     config.xsrfHeaderName = "X-CSRF-TOKEN";
     return config;
   },

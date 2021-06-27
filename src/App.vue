@@ -24,7 +24,7 @@ export default defineComponent({
         path: "/socket.io", // 后端socket地址
         extraHeaders: {
           Authorization: `Bearer ${cookie.get("Admin-Token")}`,
-          "x-csrf-token": cookie.get("csrfToken"),
+          // "x-csrf-token": cookie.get("csrfToken"),
         },
       });
 

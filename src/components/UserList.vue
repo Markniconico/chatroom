@@ -1,28 +1,56 @@
 <template>
-  <router-link to="/chatwindow">
-    <div class="user-list van-hairline--bottom">
-      <div class="list-profile">
-        <van-image
-          width="1.5rem"
-          height="1.5rem"
-          lazy-load
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-      </div>
-      <div class="list-info">
-        <p class="name">海澜之家</p>
-        <p class="message">欢迎新人入群,嘎嘎</p>
-      </div>
-      <div class="list-date">
-        <p class="date">17:21</p>
-      </div>
+  <div class="user-list van-hairline--bottom">
+    <div class="list-profile">
+      <van-image
+        width="1.5rem"
+        height="1.5rem"
+        lazy-load
+        src="https://img.yzcdn.cn/vant/cat.jpeg"
+      />
     </div>
-  </router-link>
+    <div class="list-info">
+      <p class="name">{{ chatName }}</p>
+      <p class="message">
+        {{ item.messages[item.messages.length - 1].content }}
+      </p>
+    </div>
+    <div class="list-date">
+      <p class="date">17:21</p>
+    </div>
+  </div>
 </template>
 
 <script>
-import { defineComponent } from "vue";
-export default defineComponent({});
+import { defineComponent, computed } from "vue";
+import { useStore } from "vuex";
+export default defineComponent({
+  name: "UserList",
+  components: {},
+  props: {
+    item: {
+      default: () => {
+        return {
+          members: [],
+          message: [],
+          is_group: false,
+        };
+      },
+    },
+  },
+  setup({ item }) {
+    const store = useStore();
+    return {
+      chatName: computed(() => {
+        if (item.is_group) {
+          return item.chat_name;
+        } else {
+          // todo 需要用members筛除登录用户，得到对话名称
+          return "未知对话";
+        }
+      }),
+    };
+  },
+});
 </script>
 
 <style lang="postcss" scoped>

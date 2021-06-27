@@ -8,11 +8,11 @@
         left-arrow
         fixed
         placeholder
-        @click-left="$router.back()"
+        @click-left="$emit('windowBack')"
         safe-area-inset-top
       >
         <template #right>
-          <van-icon name="friends-o" color="#fff" size=".5rem" />
+          <van-icon name="friends-o" />
         </template>
       </van-nav-bar>
     </header>
@@ -45,7 +45,8 @@ export default defineComponent({
     MessageBlock,
     MessageInput,
   },
-  setup() {
+  emits: ["windowBack"],
+  setup(props, ctx) {
     const message = ref("");
     const messageList = reactive([
       {
