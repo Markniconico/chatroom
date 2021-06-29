@@ -1,12 +1,11 @@
 <template>
   <div class="chat-window">
     <!-- 头部 -->
-    <header>
+    <header class="header">
       <van-nav-bar
-        title="基佬群"
+        :title="item.chat_name || '未知会话'"
         right-text="按钮"
         left-arrow
-        fixed
         placeholder
         @click-left="$emit('windowBack')"
         safe-area-inset-top
@@ -17,25 +16,23 @@
       </van-nav-bar>
     </header>
     <!-- 聊天区域 -->
-    <main
-      class="window van-hairline--bottom"
-      :class="{ upHeight: windowHeight }"
-    >
-      <message-block :messageList="messageList"></message-block>
+    <main class="main">
+      <div class="content">
+        <message-block :messageList="item.messages"></message-block>
+      </div>
+      <div class="input">
+        <message-input
+          v-model="message"
+          @send="sendMessage"
+          @changeHeight="changeHeight"
+        />
+      </div>
     </main>
-    <!-- 输出框区域 -->
-    <footer class="input">
-      <message-input
-        v-model="message"
-        @send="sendMessage"
-        @changeHeight="changeHeight"
-      />
-    </footer>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, reactive } from "vue";
+import { defineComponent, ref, reactive, toRefs } from "vue";
 import MessageBlock from "./MessageBlock.vue";
 import MessageInput from "./MessageInput.vue";
 
@@ -45,137 +42,45 @@ export default defineComponent({
     MessageBlock,
     MessageInput,
   },
+  props: {
+    item: {
+      default: () => {
+        return {
+          chat_name: "",
+          is_group: false,
+          members: [],
+          messages: [],
+        };
+      },
+    },
+  },
   emits: ["windowBack"],
   setup(props, ctx) {
-    const message = ref("");
-    const messageList = reactive([
-      {
-        msg: "今晚吃啥子1",
-        author: "小2明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小3明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小4明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小5明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小明",
-        id: "97897",
-        time: "2021/2/6 18:42",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小李",
-        id: "978977",
-        time: "2021/2/6 18:41",
-      },
-      {
-        msg: "今晚吃啥子",
-        author: "小张",
-        id: "978197",
-        time: "2021/2/6 18:40",
-      },
-      {
-        msg: "吃屁",
-        id: "91247897",
-        time: "2021/2/6 18:43",
-      },
-    ]);
+    const state = reactive({
+      message: "",
+      windowHeight: false,
+    });
     /* 发送消息到输入框中 */
     const sendMessage = () => {
-      if (message.value.trim() !== "") {
-        messageList.unshift({
-          msg: message.value,
-          id: "91247897",
-          time: "2021/2/6 18:43",
+      if (state.message.trim() !== "") {
+        // todo 获取当前登录用户   填写到user
+        props.item.messages.push({
+          content: state.message,
+          read: false,
+          user: 2,
         });
-        message.value = "";
+        state.message = "";
       }
     };
 
-    const windowHeight = ref(false);
     /* 改变输出框高度 */
-    const changeHeight = (boolean) => {
-      windowHeight.value = boolean;
-      console.log(windowHeight.value);
-    };
+    const changeHeight = (boolean) => {};
 
     return {
-      message,
-      messageList,
+      ...toRefs(props),
+      ...toRefs(state),
       sendMessage,
       changeHeight,
-      windowHeight,
     };
   },
 });
@@ -183,25 +88,23 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .chat-window {
-  & .input {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    & .van-cell {
-      align-items: center;
-    }
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  & .header {
   }
-
-  & .window {
+  & .main {
+    flex: 1;
     display: flex;
-    flex-direction: column-reverse;
-    height: calc(100vh - 100px);
-    padding: 0 10px 5px;
-    overflow: auto;
-    overscroll-behavior: contain;
-  }
-  & .upHeight {
-    height: calc(100vh - 250px);
+    flex-direction: column;
+    overflow: hidden;
+    & .content {
+      flex: 1;
+      overflow: hidden;
+    }
+    & .input {
+    }
   }
 }
 </style>

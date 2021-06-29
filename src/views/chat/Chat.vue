@@ -22,7 +22,7 @@
   </div>
   <transition name="van-slide-right">
     <div v-show="drawerShow" class="chat-drawer">
-      <chat-window @windowBack="triggerChatWindow(false)"></chat-window>
+      <chat-window @windowBack="triggerChatWindow(false)" :item="currentItem"></chat-window>
     </div>
   </transition>
 </template>
@@ -45,6 +45,12 @@ export default defineComponent({
       finished: false, //列表完成加载
       refreshing: false, //下拉刷新
       drawerShow: false, //聊天窗口
+      currentItem: {
+        chat_name: "",
+        is_group: false,
+        members: [],
+        messages: [],
+      },
     });
 
     const store = useStore();
@@ -63,6 +69,7 @@ export default defineComponent({
     const triggerChatWindow = (flag, item) => {
       console.log(item);
       state.drawerShow = flag;
+      state.currentItem = item;
     };
 
     return {
