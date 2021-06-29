@@ -1,24 +1,21 @@
 <template>
-  <div
-    class="info"
-    :class="bubbleClass(item.author)"
-    v-for="item of messageList"
-    :key="item.id"
-  >
-    <div class="profile">
-      <van-image
-        width="1rem"
-        height="1rem"
-        lazy-load
-        src="https://img.yzcdn.cn/vant/cat.jpeg"
-      />
-    </div>
-    <div class="user">
-      <div class="name">
-        {{ item.author }}
+  <div class="message-block">
+    <div class="message-item" v-for="item of messageList" :key="item.id">
+      <div class="profile">
+        <van-image
+          width="1rem"
+          height="1rem"
+          lazy-load
+          src="https://img.yzcdn.cn/vant/cat.jpeg"
+        />
       </div>
-      <div class="message" :class="'bubble-' + bubbleClass(item.author)">
-        {{ item.msg }}
+      <div class="user">
+        <span class="name">
+          {{ item.user }}
+        </span>
+        <span class="message">
+          {{ item.content }}
+        </span>
       </div>
     </div>
   </div>
@@ -35,7 +32,10 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const bubbleClass = (author) => (author ? "left" : "right");
+    const bubbleClass = (author) => {
+      // todo 获取当前用户信息，
+      return "left";
+    };
     return {
       bubbleClass,
     };
@@ -49,7 +49,7 @@ export default defineComponent({
 --bubble-left-bg: #fff;
 --bubble-right-bg: #9eea6a; */
 
-.info.right {
+.message-block.right {
   align-self: flex-end;
   & .user {
     order: -1;
@@ -60,7 +60,7 @@ export default defineComponent({
   }
 }
 
-.info.left {
+.message-block.left {
   & .user {
     transform: translateX(3px);
     & .name {
@@ -70,34 +70,40 @@ export default defineComponent({
   }
 }
 
-.info {
+.message-block {
   display: flex;
-  align-items: center;
-  padding: 2px 0;
-  & .profile {
+  flex-direction: column;
+  padding: 0 16px;
+  height: 100%;
+  overflow-y: auto;
+  & .message-item {
+    height: 46px;
     display: flex;
-    align-items: flex-end;
-  }
-  & .user {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    padding-right: 3px;
-    & .name {
-      color: #999;
-      font-size: 10px;
+    & .profile {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: flex-end;
+      margin-top: 6px;
+      border-radius: 50%;
+      overflow: hidden;
     }
+    & .user {
+      display: flex;
+      flex-direction: column;
+      padding: 6px;
+      & .name {
+        color: #999;
+        font-size: 10px;
+      }
 
-    & .message {
-      position: relative;
-      padding: 5px;
-      font-size: 12px;
-      background-color: #fff;
-      border-radius: 2px;
-    }
-    & .bubble-left {
-    }
-    & .bubble-right {
+      & .message {
+        padding: 5px;
+        font-size: 12px;
+        background-color: #fff;
+        border-radius: 2px;
+        word-break: break-all;
+      }
     }
   }
 }
