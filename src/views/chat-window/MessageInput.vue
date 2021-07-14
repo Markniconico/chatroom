@@ -3,7 +3,6 @@
     <!-- 输出框 -->
     <van-field
       v-model="message"
-      :class="{ 'input-fixed': optionShow || emojiShow }"
       rows="1"
       autosize
       type="textarea"
@@ -12,6 +11,7 @@
       clearable
       autofocus
       center
+      @focus="closeAll"
     >
       <template #right-icon>
         <van-icon
@@ -23,79 +23,76 @@
       </template>
       <template #button>
         <van-icon
-          v-if="toggleButton"
+          v-if="!message"
           name="add-o"
           size=".5rem"
           color="#000"
           @click="toggleOption"
         />
-        <van-button v-else type="primary" @click="sendMessage" size="mini"
+        <van-button
+          v-else
+          type="primary"
+          @click="sendMessage(message)"
+          size="mini"
           >发送</van-button
         >
       </template>
     </van-field>
 
     <!-- 选项弹出框 -->
-    <options-popup :optionShow="optionShow"></options-popup>
+    <options-popup v-show="optionShow"></options-popup>
 
     <!-- 表情弹出框 -->
-    <emoji-popup
-      :emojiShow="emojiShow"
-      @selectEmoji="selectOnEmoji"
-    ></emoji-popup>
+    <emoji-popup v-show="emojiShow" @selectEmoji="selectOnEmoji"></emoji-popup>
   </div>
 </template>
 
 <script>
-import { computed, defineComponent, watch } from "vue";
+import { computed, defineComponent, reactive, toRefs, watch } from "vue";
 import OptionsPopup from "./OptionsPopup.vue";
 import EmojiPopup from "./EmojiPopup.vue";
 import { inputModel } from "./model/inputModel.js";
-import { optionModel } from "./model/optionModel.js";
-import { emojiModel } from "./model/emojiModel.js";
-
 export default defineComponent({
   name: "MessageInput",
   components: {
     OptionsPopup,
     EmojiPopup,
   },
-  props: {
-    modelValue: {
-      type: String,
-      default: "",
-      required: true,
-    },
-  },
+  props: {},
+  emits: ["send"],
   setup(props, context) {
-    const { message, sendMessage } = inputModel(props, context);
-
-    const { optionShow, toggleOption } = optionModel();
-
-    const { emojiShow, togglEmmoji, selectOnEmoji } = emojiModel(message);
-
-    /* 监听两个选项是否展开事件,如果展开把聊天框抬高 */
-    watch(
-      [() => optionShow.value, () => emojiShow.value],
-      ([newOtion, newEmoji], [oldOption, oldEmoji]) => {
-        const boolean = newOtion || newEmoji;
-        context.emit("changeHeight", boolean);
-      },
-    );
-
-    // 监听输入事件
-    const toggleButton = computed(() => {
-      return props.modelValue === "" ? true : false;
+    const state = reactive({
+      optionShow: false,
+      emojiShow: false,
     });
+    const { message, sendMessage } = inputModel(context);
+
+    const toggleOption = () => {
+      state.optionShow = !state.optionShow;
+      state.emojiShow = false;
+    };
+
+    const togglEmmoji = () => {
+      state.optionShow = false;
+      state.emojiShow = !state.emojiShow;
+    };
+
+    const closeAll = () => {
+      state.optionShow = false;
+      state.emojiShow = false;
+    };
+
+    const selectOnEmoji = (value) => {
+      message += value;
+    };
 
     return {
+      ...toRefs(state),
+      toggleOption,
+      togglEmmoji,
       message,
       sendMessage,
-      toggleButton,
-      optionShow,
-      toggleOption,
-      emojiShow,
-      togglEmmoji,
+      closeAll,
       selectOnEmoji,
     };
   },
@@ -104,10 +101,6 @@ export default defineComponent({
 
 <style lang="postcss">
 .message-input {
-  & .input-fixed {
-    position: fixed;
-    bottom: 160px;
-  }
   & .van-field__right-icon {
     & i {
       cursor: pointer;

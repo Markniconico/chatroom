@@ -6,7 +6,7 @@
           width="1rem"
           height="1rem"
           lazy-load
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
+          :src="item.headImg || 'https://img.yzcdn.cn/vant/cat.jpeg'"
         />
       </div>
       <div class="user">
