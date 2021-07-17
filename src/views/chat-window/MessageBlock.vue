@@ -1,5 +1,5 @@
 <template>
-  <div class="message-block">
+  <div ref="messageBlock" class="message-block">
     <div class="message-item" v-for="item of messageList" :key="item.id">
       <div class="profile">
         <van-image
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, watch, nextTick, ref } from "vue";
 export default defineComponent({
   name: "MessageBlock",
   props: {
@@ -31,13 +31,25 @@ export default defineComponent({
       default: () => [],
     },
   },
-  setup(props) {
-    const bubbleClass = (author) => {
-      // todo 获取当前用户信息，
-      return "left";
-    };
+  setup(props, context) {
+    const messageBlock = ref(null);
+    // 自动滚动到底部
+    watch(
+      () => props.messageList,
+      (nval, oval) => {
+        nextTick(() => {
+          const messageBlcokElement = messageBlock.value;
+          messageBlcokElement.scrollTop =
+            messageBlcokElement.scrollHeight - messageBlcokElement.clientHeight;
+        });
+      },
+      {
+        immediate: true,
+        deep: true,
+      },
+    );
     return {
-      bubbleClass,
+      messageBlock,
     };
   },
 });
