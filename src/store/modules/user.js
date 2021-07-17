@@ -1,4 +1,4 @@
-import { loginApi, logOutApi } from "@api/user.js";
+import { loginApi, logOutApi, verifyApi } from "@api/user.js";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 import { Notify } from "vant";
 
@@ -6,12 +6,18 @@ export default {
   namespaced: true,
   state: {
     token: getToken(),
-    userinfo: {}
+    userinfo: {
+      role: 1,
+      username: ""
+    },
   },
   getters: {},
   mutations: {
     setToken(state, token) {
       state.token = token;
+    },
+    setUserinfo(state, userinfo) {
+      state.userinfo = userinfo;
     },
   },
   actions: {
@@ -19,13 +25,24 @@ export default {
     login({ commit }, data) {
       return new Promise((resolve, reject) => {
         loginApi(data)
-          .then((res) => {
+          .then(async (res) => {
+            commit("setToken", res.data);
+            setToken(res.data);
             Notify({
               type: "success",
               message: "登录成功",
             });
-            commit("setToken", res.data);
-            setToken(res.data);
+            resolve();
+          })
+          .catch((err) => reject(err));
+      });
+    },
+
+    verify({ commit }, data) {
+      return new Promise((resolve, reject) => {
+        verifyApi(data)
+          .then((res) => {
+            commit("setUserinfo", res.data);
             resolve();
           })
           .catch((err) => reject(err));
