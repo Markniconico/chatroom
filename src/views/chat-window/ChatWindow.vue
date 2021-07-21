@@ -21,11 +21,7 @@
         <message-block :messageList="item.messages"></message-block>
       </div>
       <div class="input">
-        <message-input
-          v-model="message"
-          @send="sendMessage"
-          @changeHeight="changeHeight"
-        />
+        <message-input @send="sendMessage" />
       </div>
     </main>
   </div>
@@ -57,15 +53,14 @@ export default defineComponent({
   emits: ["windowBack"],
   setup(props, ctx) {
     const state = reactive({
-      message: "",
       windowHeight: false,
     });
     /* 发送消息到输入框中 */
-    const sendMessage = () => {
-      if (state.message.trim() !== "") {
+    const sendMessage = (message) => {
+      if (message.trim() !== "") {
         // todo 获取当前登录用户   填写到user
         props.item.messages.push({
-          content: state.message,
+          content: message,
           read: false,
           user: 2,
         });
@@ -73,14 +68,10 @@ export default defineComponent({
       }
     };
 
-    /* 改变输出框高度 */
-    const changeHeight = (boolean) => {};
-
     return {
       ...toRefs(props),
       ...toRefs(state),
       sendMessage,
-      changeHeight,
     };
   },
 });

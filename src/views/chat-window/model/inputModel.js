@@ -1,24 +1,18 @@
-import { computed } from 'vue'
-
+import { reactive, toRefs } from "vue";
 
 // 输入框发送消息
-export function inputModel (props, context) {
-  const message = computed({
-    get () {
-      return props.modelValue
-    },
-    set (val) {
-      context.emit('update:modelValue', val)
-    }
-  })
+export function inputModel(context) {
+  const state = reactive({
+    message: "",
+  });
 
   const sendMessage = () => {
-    context.emit('send')
-  }
-
+    context.emit("send", state.message);
+    state.message = "";
+  };
 
   return {
-    message,
-    sendMessage
-  }
+    ...toRefs(state),
+    sendMessage,
+  };
 }

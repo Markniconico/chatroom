@@ -75,10 +75,10 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // NProgress.start()
 
-  const { token } = store.state.user;
+  const { token, userinfo } = store.state.user;
 
   document.title = to.meta.title || "聊天室";
 
@@ -90,11 +90,15 @@ router.beforeEach((to, from, next) => {
     next();
   } else {
     // 未登录且需要登录的页面
-    if (to.meta.requiresAuth && !token) {
+    if (!token) {
       next({
         path: "/login",
         query: { redirect: to.fullPath },
       });
+    } else if (!userinfo.username) {
+      await store.dispatch("user/verify");
+      await store.dispatch("socket/connect");
+      next();
     } else {
       next();
     }

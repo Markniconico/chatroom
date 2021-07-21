@@ -1,19 +1,23 @@
-import request from '@/utils/request.js'
+import request from "@/utils/request.js";
 
-export function loginApi (data) {
+export function loginApi(data) {
   return request({
-    url: '/login',
-    method: 'POST',
-    data
-  })
+    url: "/login",
+    method: "POST",
+    data,
+  });
 }
 
-export function logOutApi () {
+export function verifyApi() {
   return request({
-    url: '/logout',
-    method: 'POST'
-  })
+    url: "/verify",
+    method: "POST",
+  });
 }
 
-
-
+export function logOutApi() {
+  return request({
+    url: "/logout",
+    method: "POST",
+  });
+}
