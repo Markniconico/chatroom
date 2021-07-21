@@ -97,6 +97,7 @@ router.beforeEach(async (to, from, next) => {
       });
     } else if (!userinfo.username) {
       await store.dispatch("user/verify");
+      await store.dispatch("socket/connect");
       next();
     } else {
       next();

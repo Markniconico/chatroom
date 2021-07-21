@@ -20,21 +20,21 @@ export default defineComponent({
   setup() {
     onMounted(() => {
       // namespace
-      const socket = io("/test", {
-        path: "/socket.io", // 后端socket地址
-        extraHeaders: {
-          Authorization: `Bearer ${cookie.get("Admin-Token")}`,
-          // "x-csrf-token": cookie.get("csrfToken"),
-        },
-      });
+      // const socket = io("/", {
+      //   path: "/socket.io", // 后端socket地址
+      //   extraHeaders: {
+      //     Authorization: `Bearer ${cookie.get("Admin-Token")}`,
+      //     // "x-csrf-token": cookie.get("csrfToken"),
+      //   },
+      // });
 
-      socket.on("connect", () => {
-        console.log("socket connect success");
-      });
-      socket.emit("hi");
-      socket.on("ha", (payload) => {
-        console.log(payload);
-      });
+      // socket.on("connect", () => {
+      //   console.log("socket connect success");
+      // });
+      // socket.emit("hi");
+      // socket.on("ha", (payload) => {
+      //   console.log(payload);
+      // });
     });
   },
 });
