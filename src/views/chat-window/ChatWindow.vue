@@ -28,7 +28,9 @@
 </template>
 
 <script>
+import { Notify } from "vant";
 import { defineComponent, ref, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
 import MessageBlock from "./MessageBlock.vue";
 import MessageInput from "./MessageInput.vue";
 
@@ -52,6 +54,7 @@ export default defineComponent({
   },
   emits: ["windowBack"],
   setup(props, ctx) {
+    const store = useStore();
     const state = reactive({
       windowHeight: false,
     });
@@ -59,12 +62,30 @@ export default defineComponent({
     const sendMessage = (message) => {
       if (message.trim() !== "") {
         // todo 获取当前登录用户   填写到user
-        props.item.messages.push({
-          content: message,
-          read: false,
-          user: 2,
-        });
-        state.message = "";
+        store
+          .dispatch("socket/sendMessage", {
+            chat_id: props.item.chat_id,
+            message: {
+              content: message,
+              read: false,
+              user: 2,
+            },
+          })
+          .then((_) => {
+            props.item.messages.push({
+              content: message,
+              read: false,
+              user: 2,
+            });
+            state.message = "";
+          })
+          .catch((err) => {
+            console.error(err);
+            Notify({
+              type: "error",
+              message: "消息发送失败",
+            });
+          });
       }
     };
 
