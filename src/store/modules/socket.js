@@ -35,9 +35,8 @@ export default {
             type: "success",
             message: "socket连接成功",
           });
-          socket.on("receiverMessage", ({ chat_id, message }) => {
-            console.log(chat_id, message);
-          });
+          socket.emit("addRooms");
+
           resolve();
         });
         socket.on("disconnect", () => {
