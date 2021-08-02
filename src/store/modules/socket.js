@@ -9,7 +9,9 @@ export default {
     socket: null,
   },
   getters: {
-    getSocket() {},
+    getSocket(state) {
+      return state.socket;
+    },
   },
   mutations: {
     setSocket(state, socket) {
@@ -33,12 +35,29 @@ export default {
             type: "success",
             message: "socket连接成功",
           });
+          socket.emit("addRooms");
+
           resolve();
         });
         socket.on("disconnect", () => {
           console.log("自动重连ing");
           socket.connect();
         });
+      });
+    },
+    sendMessage({ commit, state }, { chat_id, message }) {
+      return new Promise((resolve, reject) => {
+        state.socket.emit(
+          "sendMessage",
+          { chat_id, message },
+          ({ code, message }) => {
+            if (code === 200) {
+              resolve();
+            } else {
+              reject();
+            }
+          },
+        );
       });
     },
   },

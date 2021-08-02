@@ -22,14 +22,17 @@
   </div>
   <transition name="van-slide-right">
     <div v-show="drawerShow" class="chat-drawer">
-      <chat-window @windowBack="triggerChatWindow(false)" :item="currentItem"></chat-window>
+      <chat-window
+        @windowBack="triggerChatWindow(false)"
+        :item="currentItem"
+      ></chat-window>
     </div>
   </transition>
 </template>
 
 <script>
-import { defineComponent, onMounted, reactive, toRefs } from "vue";
-import { mapActions, useStore } from "vuex";
+import { defineComponent, reactive, toRefs } from "vue";
+import { useStore } from "vuex";
 import UserList from "@/components/UserList.vue";
 import ChatWindow from "@/views/chat-window/ChatWindow.vue";
 export default defineComponent({
@@ -54,6 +57,13 @@ export default defineComponent({
     });
 
     const store = useStore();
+
+    // 监听新消息
+    const socket = store.getters["socket/getSocket"];
+    socket.on("receiverMessage", ({ chat_id, message }) => {
+      const { messages } = state.list.find((item) => item.chat_id === chat_id);
+      messages.push(message);
+    });
 
     const getChatList = async () => {
       state.refreshing = false;

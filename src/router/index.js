@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import Home from "@/views/Home.vue";
 import store from "@/store/index.js";
+import { Notify } from "vant";
 /* import NProgress from 'nprogress'
 import 'nprogress/nprogress.css' */
 
@@ -98,6 +99,25 @@ router.beforeEach(async (to, from, next) => {
     } else if (!userinfo.username) {
       await store.dispatch("user/verify");
       await store.dispatch("socket/connect");
+      const socket = store.getters["socket/getSocket"];
+      if (socket) {
+        socket.on("error", ({ code, message }) => {
+          if (code === 401) {
+            Notify({
+              type: "danger",
+              message: "socket登录失效",
+            });
+            store.dispatch("user/resetToken");
+            router.push("/login");
+          } else if (code === 500) {
+            Notify({
+              type: "danger",
+              message: "socket未知错误",
+            });
+          }
+        });
+      }
+
       next();
     } else {
       next();
