@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "SET NODE_ENV=development && vue-cli-service serve",
+    "serve": "set NODE_ENV=development && vue-cli-service serve",
     "build": "vue-cli-service build"
   },
   "dependencies": {
