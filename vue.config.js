@@ -24,7 +24,9 @@ module.exports = {
 };
 
 function getProxyConfig() {
-    const env = process.env.NODE_ENV.trim() || "development";
+    // const env = "development";
+    const env = "prod";
+
     if (env == "development") {
         return {
             "/api/*": {
