@@ -11,7 +11,7 @@
     <div class="list-info">
       <p class="name">{{ chatName }}</p>
       <p class="message">
-        {{ item.messages[item.messages.length - 1].content }}
+        {{ firstMessage }}
       </p>
     </div>
     <div class="list-date">
@@ -39,15 +39,20 @@ export default defineComponent({
   },
   setup({ item }) {
     const store = useStore();
+    const chatName = computed(() => {
+      if (item.is_group) {
+        return item.chat_name;
+      } else {
+        // todo 需要用members筛除登录用户，得到对话名称
+        return "未知对话";
+      }
+    });
+    const firstMessage = computed(() => {
+      return item.messages[-1]?.content ?? "";
+    });
     return {
-      chatName: computed(() => {
-        if (item.is_group) {
-          return item.chat_name;
-        } else {
-          // todo 需要用members筛除登录用户，得到对话名称
-          return "未知对话";
-        }
-      }),
+      chatName,
+      firstMessage,
     };
   },
 });

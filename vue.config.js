@@ -24,8 +24,8 @@ module.exports = {
 };
 
 function getProxyConfig() {
-    // const env = "development";
-    const env = "prod";
+    const env = "development";
+    // const env = "prod";
 
     if (env == "development") {
         return {
@@ -52,13 +52,13 @@ function getProxyConfig() {
             target: "http://182.92.81.247",
             // ws: true,
             changeOrigin: true,
-            // logLevel: "debug"
+            logLevel: "debug"
         },
         "/socket.io": {
             target: "http://182.92.81.247",
             changeOrigin: true,
             ws: true,
-            // logLevel: "debug",
+            logLevel: "debug",
         },
     };
 }
