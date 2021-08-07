@@ -48,7 +48,8 @@ export default defineComponent({
       }
     });
     const firstMessage = computed(() => {
-      return item.messages[-1]?.content ?? "";
+      if (!item.messages.length) return "";
+      return item.messages[item.messages.length - 1]?.content ?? "";
     });
     return {
       chatName,
