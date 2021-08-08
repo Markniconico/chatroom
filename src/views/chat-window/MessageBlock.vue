@@ -1,6 +1,11 @@
 <template>
   <div ref="messageBlock" class="message-block">
-    <div class="message-item" v-for="item of messageList" :key="item.id">
+    <div
+      class="message-item"
+      :class="{ right: item.user === userinfo.id }"
+      v-for="item of messageList"
+      :key="item.id"
+    >
       <div class="profile">
         <van-image
           width="1rem"
@@ -9,9 +14,9 @@
           :src="item.headImg || 'https://img.yzcdn.cn/vant/cat.jpeg'"
         />
       </div>
-      <div class="user">
+      <div class="user" :class="{ right: item.user === userinfo.id }">
         <span class="name">
-          {{ item.user }}
+          {{ members[item.user] }}
         </span>
         <span class="message">
           {{ item.content }}
@@ -22,7 +27,8 @@
 </template>
 
 <script>
-import { defineComponent, watch, nextTick, ref } from "vue";
+import { defineComponent, watch, nextTick, ref, computed } from "vue";
+import { useStore } from "vuex";
 export default defineComponent({
   name: "MessageBlock",
   props: {
@@ -30,9 +36,16 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    members: {
+      type: Object,
+      default: () => {},
+    },
   },
   setup(props, context) {
     const messageBlock = ref(null);
+    const store = useStore();
+    const userinfo = store.state.user.userinfo;
+
     // 自动滚动到底部
     watch(
       () => props.messageList,
@@ -49,6 +62,7 @@ export default defineComponent({
       },
     );
     return {
+      userinfo,
       messageBlock,
     };
   },
@@ -56,32 +70,6 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-/* --bubble-margin: 5px;
---bubble-lr: -10px;
---bubble-left-bg: #fff;
---bubble-right-bg: #9eea6a; */
-
-.message-block.right {
-  align-self: flex-end;
-  & .user {
-    order: -1;
-    & .name {
-      text-align: right;
-      padding-right: 5px;
-    }
-  }
-}
-
-.message-block.left {
-  & .user {
-    transform: translateX(3px);
-    & .name {
-      padding-left: 5px;
-      text-align: left;
-    }
-  }
-}
-
 .message-block {
   display: flex;
   flex-direction: column;
@@ -91,6 +79,9 @@ export default defineComponent({
   & .message-item {
     height: 46px;
     display: flex;
+    &.right {
+      flex-direction: row-reverse;
+    }
     & .profile {
       width: 36px;
       height: 36px;
@@ -101,9 +92,13 @@ export default defineComponent({
       overflow: hidden;
     }
     & .user {
+      flex: 1;
       display: flex;
       flex-direction: column;
       padding: 6px;
+      &.right {
+        align-items: flex-end;
+      }
       & .name {
         color: #999;
         font-size: 10px;

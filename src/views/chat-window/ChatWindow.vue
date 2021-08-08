@@ -18,7 +18,10 @@
     <!-- 聊天区域 -->
     <main class="main">
       <div class="content">
-        <message-block :messageList="item.messages"></message-block>
+        <message-block
+          :messageList="item.messages"
+          :members="item.members"
+        ></message-block>
       </div>
       <div class="input">
         <message-input @send="sendMessage" />
@@ -29,7 +32,7 @@
 
 <script>
 import { Notify } from "vant";
-import { defineComponent, ref, reactive, toRefs } from "vue";
+import { defineComponent, ref, reactive, toRefs, computed } from "vue";
 import { useStore } from "vuex";
 import MessageBlock from "./MessageBlock.vue";
 import MessageInput from "./MessageInput.vue";
@@ -58,24 +61,24 @@ export default defineComponent({
     const state = reactive({
       windowHeight: false,
     });
+    const userinfo = store.state.user.userinfo;
     /* 发送消息到输入框中 */
     const sendMessage = (message) => {
       if (message.trim() !== "") {
-        // todo 获取当前登录用户   填写到user
         store
           .dispatch("socket/sendMessage", {
             chat_id: props.item.chat_id,
             message: {
               content: message,
               read: false,
-              user: 2,
+              user: userinfo.id,
             },
           })
           .then((_) => {
             props.item.messages.push({
               content: message,
               read: false,
-              user: 2,
+              user: userinfo.id,
             });
             state.message = "";
           })
@@ -92,6 +95,7 @@ export default defineComponent({
     return {
       ...toRefs(props),
       ...toRefs(state),
+      userinfo,
       sendMessage,
     };
   },
