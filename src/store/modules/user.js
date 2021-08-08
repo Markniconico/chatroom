@@ -8,7 +8,7 @@ export default {
     token: getToken(),
     userinfo: {
       role: 1,
-      username: ""
+      username: "",
     },
   },
   getters: {},
@@ -59,6 +59,10 @@ export default {
               message: "退出成功",
             });
             commit("setToken", "");
+            commit("setUserinfo", {
+              role: 1,
+              username: "",
+            });
             removeToken();
             resolve();
           })
