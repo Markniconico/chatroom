@@ -3,7 +3,7 @@
     <!-- 头部 -->
     <header class="header">
       <van-nav-bar
-        :title="item.chat_name || '未知会话'"
+        :title="chatName || '未知会话'"
         right-text="按钮"
         left-arrow
         placeholder
@@ -11,7 +11,7 @@
         safe-area-inset-top
       >
         <template #right>
-          <van-icon name="friends-o" />
+          <!-- <van-icon name="friends-o" /> -->
         </template>
       </van-nav-bar>
     </header>
@@ -92,10 +92,21 @@ export default defineComponent({
       }
     };
 
+    const chatName = computed(() => {
+      if (props.item.is_group) {
+        return props.item.chat_name;
+      } else {
+        const id = Object.keys(props.item.members).find(
+          (key) => key !== userinfo.id,
+        );
+        return props.item.members[id];
+      }
+    });
+
     return {
-      ...toRefs(props),
       ...toRefs(state),
       userinfo,
+      chatName,
       sendMessage,
     };
   },

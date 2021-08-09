@@ -1,4 +1,4 @@
-import { getChatListApi } from "@api/chat";
+import { getChatListApi, getUserListApi } from "@api/chat";
 
 export default {
   namespaced: true,
@@ -14,6 +14,17 @@ export default {
     getChatList() {
       return new Promise((resolve, reject) => {
         getChatListApi()
+          .then((result) => {
+            resolve(result);
+          })
+          .catch((err) => {
+            reject(err);
+          });
+      });
+    },
+    getUserList() {
+      return new Promise((resolve, reject) => {
+        getUserListApi()
           .then((result) => {
             resolve(result);
           })

@@ -9,8 +9,7 @@
         radius="10"
       />
       <div class="user-info">
-        <h2 class="user-name">程振国</h2>
-        <p class="user-id">微信号: czg6201034</p>
+        <h2 class="user-name">{{ userinfo.username }}</h2>
       </div>
       <div class="arrow">
         <van-icon name="arrow" size="16px" color="#B3B3B3" />
@@ -18,10 +17,10 @@
     </div>
     <!-- 跳转导航 -->
     <div class="menu">
-      <van-cell title="支付" icon="chat-o" is-link />
+      <!-- <van-cell title="支付" icon="chat-o" is-link />
       <van-cell title="朋友圈" icon="photo-o" is-link />
       <van-cell title="表情" icon="smile-o" is-link />
-      <van-cell title="卡包" icon="paid" is-link />
+      <van-cell title="卡包" icon="paid" is-link /> -->
       <van-cell title="退出" icon="down" is-link @click="logOut" />
     </div>
   </div>
@@ -38,6 +37,8 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const router = useRouter();
+
+    const userinfo = store.state.user.userinfo;
 
     // 跳转到我的信息
     const toMyInfo = () => {
@@ -62,6 +63,7 @@ export default defineComponent({
     return {
       toMyInfo,
       logOut,
+      userinfo,
     };
   },
 });
@@ -79,12 +81,8 @@ export default defineComponent({
     justify-content: space-between;
     padding: 5px 0 5px 15px;
     & .user-name {
-      font-size: 18px;
+      font-size: 24px;
       font-weight: 700;
-    }
-    & .user-id {
-      font-size: 14px;
-      color: #7f7f7f;
     }
   }
   & .arrow {

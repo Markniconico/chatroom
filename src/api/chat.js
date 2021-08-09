@@ -6,3 +6,9 @@ export function getChatListApi() {
         methods: "GET",
     })
 }
+export function getUserListApi() {
+    return request({
+        url: "/chat/getUserList",
+        methods: "GET",
+    })
+}

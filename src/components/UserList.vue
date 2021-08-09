@@ -39,19 +39,24 @@ export default defineComponent({
   },
   setup({ item }) {
     const store = useStore();
-    const chatName = computed(() => {
-      if (item.is_group) {
-        return item.chat_name;
-      } else {
-        // todo 需要用members筛除登录用户，得到对话名称
-        return "未知对话";
-      }
-    });
+    const userinfo = store.state.user.userinfo;
+
     const firstMessage = computed(() => {
       if (!item.messages.length) return "";
       return item.messages[item.messages.length - 1]?.content ?? "";
     });
+
+    const chatName = computed(() => {
+      if (item.is_group) {
+        return item.chat_name;
+      } else {
+        const id = Object.keys(item.members).find((key) => key !== userinfo.id);
+        return item.members[id];
+      }
+    });
+
     return {
+      userinfo,
       chatName,
       firstMessage,
     };

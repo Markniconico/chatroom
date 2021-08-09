@@ -2,8 +2,8 @@
   <div class="nav-bar">
     <van-nav-bar :title="title" right-text="按钮">
       <template #right>
-        <van-icon name="search" color="#000" size=".5rem" />
-        <van-popover
+        <!-- <van-icon name="search" color="#000" size=".5rem" /> -->
+        <!-- <van-popover
           v-model:show="showPopover"
           @select="onSelect"
           theme="dark"
@@ -17,7 +17,7 @@
           <template #reference>
             <van-icon name="add-o" color="#000" size=".5rem" />
           </template>
-        </van-popover>
+        </van-popover> -->
       </template>
     </van-nav-bar>
   </div>
