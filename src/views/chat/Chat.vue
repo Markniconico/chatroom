@@ -31,7 +31,14 @@
 </template>
 
 <script>
-import { defineComponent, reactive, toRefs } from "vue";
+import {
+  computed,
+  defineComponent,
+  reactive,
+  toRefs,
+  ref,
+  watchEffect,
+} from "vue";
 import { useStore } from "vuex";
 import UserList from "@/components/UserList.vue";
 import ChatWindow from "@/views/chat-window/ChatWindow.vue";
@@ -58,6 +65,8 @@ export default defineComponent({
 
     const store = useStore();
 
+    state.list = computed(() => store.state.chat.chatList);
+
     // 监听新消息
     const socket = store.getters["socket/getSocket"];
     socket.on("receiverMessage", ({ chat_id, message }) => {
@@ -67,11 +76,9 @@ export default defineComponent({
 
     const getChatList = async () => {
       state.refreshing = false;
-      state.list = [];
       state.finished = false;
       state.loading = true;
-      const result = await store.dispatch("chat/getChatList");
-      state.list = result.data;
+      await store.dispatch("chat/getChatList");
       state.loading = false;
       state.finished = true;
     };

@@ -45,6 +45,21 @@ export default {
         });
       });
     },
+    createChat({ commit, state }, { chat_user_id }) {
+      return new Promise((resolve, reject) => {
+        state.socket.emit(
+          "createChat",
+          { chat_user_id },
+          ({ code, message, data }) => {
+            if (code === 200) {
+              resolve(data);
+            } else {
+              reject();
+            }
+          },
+        );
+      });
+    },
     sendMessage({ commit, state }, { chat_id, message }) {
       return new Promise((resolve, reject) => {
         state.socket.emit(

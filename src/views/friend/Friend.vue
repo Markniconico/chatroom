@@ -10,7 +10,7 @@
           <div class="cancel button" @click="closeCard">
             <van-icon name="cross" />
           </div>
-          <div class="chat button">聊</div>
+          <div class="chat button" @click="createChat">聊</div>
         </div>
       </div>
     </transition>
@@ -36,21 +36,40 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 import { useStore } from "vuex";
 const store = useStore();
-const result = await store.dispatch("chat/getUserList");
-const userList = reactive(result.data);
+await store.dispatch("chat/getUserList");
+const userList = computed(() => store.state.chat.userList);
 let cardShow = ref(false);
 let currentUser = reactive({ username: "", desc: "" });
-const showCard = (user) => {
+
+async function showCard(user) {
   currentUser.username = user.username;
   currentUser.desc = user.desc;
   cardShow.value = true;
-};
-const closeCard = () => {
+}
+
+async function closeCard() {
   cardShow.value = false;
-};
+}
+
+async function createChat() {
+  const chat_message = await store.dispatch("socket/createChat", {
+    chat_user_id: currentUser.id,
+  });
+  // console.log(chat_message);
+
+  const index = store.state.chat.chatList.findIndex(
+    (chat) => chat.chat_id === chat_message.chat_id,
+  );
+  if (index == -1) {
+    store.commit("chat/Set_ChatList", [
+      ...store.state.chat.chatList,
+      chat_message,
+    ]);
+  }
+}
 </script>
 
 <style lang="postcss" scoped>
