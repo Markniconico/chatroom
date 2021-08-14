@@ -98,7 +98,7 @@ export default defineComponent({
         return props.item.chat_name;
       } else {
         const id = Object.keys(props.item.members).find(
-          (key) => key !== userinfo.id,
+          (key) => key != userinfo.id,
         );
         return props.item.members[id];
       }

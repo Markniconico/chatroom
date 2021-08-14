@@ -50,7 +50,7 @@ export default defineComponent({
       if (item.is_group) {
         return item.chat_name;
       } else {
-        const id = Object.keys(item.members).find((key) => key !== userinfo.id);
+        const id = Object.keys(item.members).find((key) => key != userinfo.id);
         return item.members[id];
       }
     });
