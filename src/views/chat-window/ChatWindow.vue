@@ -47,6 +47,7 @@ export default defineComponent({
     item: {
       default: () => {
         return {
+          chat_id: "",
           chat_name: "",
           is_group: false,
           members: [],

@@ -33,15 +33,26 @@
       </van-index-bar>
     </div>
   </div>
+
+  <transition name="van-slide-right">
+    <div v-show="drawerShow" class="chat-drawer">
+      <ChatWindow
+        @windowBack="triggerChatWindow(false)"
+        :item="currentItem"
+      ></ChatWindow>
+    </div>
+  </transition>
 </template>
 
 <script setup>
 import { computed, reactive, ref } from "vue";
 import { useStore } from "vuex";
+import ChatWindow from "@/views/chat-window/ChatWindow.vue";
+
 const store = useStore();
 await store.dispatch("chat/getUserList");
 const userList = computed(() => store.state.chat.userList);
-let cardShow = ref(false);
+const cardShow = ref(false);
 let currentUser = reactive({ username: "", desc: "" });
 
 async function showCard(user) {
@@ -59,6 +70,7 @@ async function createChat() {
     chat_user_id: currentUser.id,
   });
   // console.log(chat_message);
+  triggerChatWindow(true, chat_message);
 
   const index = store.state.chat.chatList.findIndex(
     (chat) => chat.chat_id === chat_message.chat_id,
@@ -70,6 +82,25 @@ async function createChat() {
     ]);
   }
 }
+
+// 消息弹出框
+let drawerShow = ref(false);
+let currentItem = reactive({
+  chat_name: "",
+  is_group: false,
+  members: [],
+  messages: [],
+});
+
+const triggerChatWindow = (flag = false, item = currentItem) => {
+  // console.log(item, currentItem);
+  drawerShow.value = flag;
+  currentItem.chat_id = item.chat_id;
+  currentItem.chat_name = item.chat_name;
+  currentItem.is_group = item.is_group;
+  currentItem.members = item.members;
+  currentItem.messages = item.messages;
+};
 </script>
 
 <style lang="postcss" scoped>
@@ -163,5 +194,15 @@ async function createChat() {
       }
     }
   }
+}
+
+.chat-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 10;
 }
 </style>
