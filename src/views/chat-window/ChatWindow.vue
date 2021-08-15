@@ -76,6 +76,7 @@ export default defineComponent({
             },
           })
           .then((_) => {
+            // todo 两边的聊天窗口引用不一致，导致信息不同步，使用vuex对应的index索引更新数据
             props.item.messages.push({
               content: message,
               read: false,

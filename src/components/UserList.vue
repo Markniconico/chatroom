@@ -33,6 +33,7 @@ export default defineComponent({
           members: [],
           message: [],
           is_group: false,
+          messages: [],
         };
       },
     },

@@ -49,8 +49,10 @@ export default defineComponent({
     ChatWindow,
   },
   setup() {
+    const store = useStore();
+
     const state = reactive({
-      list: [], //聊天列表
+      list: computed(() => store.state.chat.chatList), //聊天列表
       loading: false, //列表loading
       finished: false, //列表完成加载
       refreshing: false, //下拉刷新
@@ -62,10 +64,6 @@ export default defineComponent({
         messages: [],
       },
     });
-
-    const store = useStore();
-
-    state.list = computed(() => store.state.chat.chatList);
 
     // 监听新消息
     const socket = store.getters["socket/getSocket"];
